@@ -2,7 +2,9 @@
 
 ## Overview
 
-Shrote is a Django-based project that includes various functionalities like audio transcription using Google Speech-to-Text, weather information using RapidAPI, SMS notifications with Twilio, and face recognition. Additionally, the project connects to a Google Cloud MySQL database using `cloud-sql-proxy`.
+Shrote is a set of functionalities designed to assist visually challenged individuals. It serves as a prototype code that, when embedded in an eyewear device, can significantly enhance the user's ability to interact with their environment. This project includes features such as audio transcription using Google Speech-to-Text, weather information using RapidAPI, SMS notifications with Twilio, and face recognition. Additionally, Shrote connects to a Google Cloud MySQL database using cloud-sql-proxy.
+
+The ultimate goal of Shrote is to provide a closer-to-eye solution for visually challenged persons, making everyday tasks more accessible and manageable.
 
 ## Table of Contents
 
