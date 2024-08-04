@@ -8,16 +8,7 @@ from django.conf import settings
 model = YOLO("yolov8n.pt")
 
 
-
-
 def detect():
-    # cap = cv2.VideoCapture(video_path)
-
-    cap = cv2.VideoCapture(0)
-
-    # Flag to indicate whether to capture a single frame
-    capture_frame = False
-
     response = ""
     person =""
     object_counts = {}
