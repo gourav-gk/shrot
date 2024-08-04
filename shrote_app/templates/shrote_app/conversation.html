@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation</title>
+    {% load static %}
+</head>
+<body>
+    <h1>Speech to Text</h1>
+    <label for="languageSelect">Select Language:</label>
+    <form id="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <select id="languageSelect" name="lang">
+            <option value="en-US" {% if lang == "en-US" %}selected{% endif %}>English (US)</option>
+            <option value="es-ES" {% if lang == "es-ES" %}selected{% endif %}>Spanish (Spain)</option>
+            <option value="fr-FR" {% if lang == "fr-FR" %}selected{% endif %}>French (France)</option>
+            <option value="de-DE" {% if lang == "de-DE" %}selected{% endif %}>German (Germany)</option>
+            <option value="hi-IN" {% if lang == "hi-IN" %}selected{% endif %}>Hindi (India)</option>
+        </select>
+        <br><br>
+        <button id="recordButton">Start Recording</button>
+        <textarea id="transcription" rows="10" cols="50" name="user_input"></textarea>
+        <input type="file" id="imageInput" name="image" accept="image/*" style="display:none;">
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Messages:</h2>
+    <div>
+        {% if message %}
+            <p>{{ message }}</p>
+            <audio id="audio" controls autoplay>
+                <source src="{% static 'output.mp3' %}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        {% endif %}
+    </div>
+
+    <video id="video" width="320" height="240" autoplay style="display:none;"></video>
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+
+    <script>
+        const recordButton = document.getElementById('recordButton');
+        const transcription = document.getElementById('transcription');
+        const languageSelect = document.getElementById('languageSelect');
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const form = document.getElementById('form');
+        const imageInput = document.getElementById('imageInput');
+        let isRecording = false;
+        let recognition;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onresult = (event) => {
+                let interimTranscription = '';
+                let finalTranscription = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscription += transcript + ' ';
+                    } else {
+                        interimTranscription += transcript;
+                    }
+                }
+
+                transcription.value = finalTranscription + interimTranscription;
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error detected: ' + event.error);
+            };
+
+            languageSelect.addEventListener('change', () => {
+                recognition.lang = languageSelect.value;
+            });
+        } else {
+            console.log('Speech recognition not supported in this browser.');
+        }
+
+        recordButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isRecording) {
+                recognition.stop();
+                recordButton.textContent = 'Start Recording';
+            } else {
+                recognition.lang = languageSelect.value; // Set language before starting
+                recognition.start();
+                recordButton.textContent = 'Stop Recording';
+            }
+            isRecording = !isRecording;
+        });
+
+        // Monitor form submission to check for "front" keyword
+        form.addEventListener('submit', function(event) {
+            const userInput = transcription.value.toLowerCase();
+            if (userInput.includes('front')) {
+                event.preventDefault(); // Prevent default form submission
+                capturePhoto(); // Trigger photo capture
+            }
+        });
+
+        function capturePhoto() {
+            // Access the camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.style.display = 'block';
+                    video.srcObject = stream;
+
+                    setTimeout(() => {
+                        const context = canvas.getContext('2d');
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        video.srcObject.getTracks().forEach(track => track.stop());
+                        video.style.display = 'none';
+
+                        // Convert canvas to a blob and set it as the value of the hidden file input
+                        canvas.toBlob(blob => {
+                            const file = new File([blob], 'photo.jpg', { type: 'image/jpeg' });
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            imageInput.files = dataTransfer.files;
+
+                            form.submit(); // Submit the form after setting the image
+                        }, 'image/jpeg');
+                    }, 1000); // Wait for a second to capture the photo
+                })
+                .catch(error => {
+                    console.error('Error accessing the camera:', error);
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversations</title>
+</head>
+<body>
+    <h1>Conversations</h1>
+
+    <ul>
+    {% for conversation in conversations %}
+        <li>
+            User: {{ conversation.user_input }} - AI: {{ conversation.response_text }}
+            <a href="{% url 'delete_conversation' conversation.id %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <button onclick="startConversation()">Start Conversation</button>
+</body>
+<script>
+    function startConversation() {
+        window.location.href = "/start_conversation/";
+    }
+</script>
+</html>
