@@ -19,6 +19,7 @@ The ultimate goal of Shrote is to provide a closer-to-eye solution for visually 
    - [Google Cloud MySQL](#google-cloud-mysql)
 3. [Running the Project](#running-the-project)
 4. [demo](#demo)
+5. [Medium Blog] (#medium-blog)
 5. [Contributing](#contributing)
 6. [License](#license)
 
@@ -145,6 +146,10 @@ Before you begin, ensure you have met the following requirements:
 ## Demo
 
 https://shrote-430807.el.r.appspot.com/
+
+## Medium Blog
+
+https://medium.com/@akumar.panday31/empowering-the-visually-impaired-with-ai-powered-assistive-eyewear-88e65ce78352
 
 ## Contributing
 
