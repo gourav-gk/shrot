@@ -19,7 +19,7 @@ The ultimate goal of Shrote is to provide a closer-to-eye solution for visually 
    - [Google Cloud MySQL](#google-cloud-mysql)
 3. [Running the Project](#running-the-project)
 4. [demo](#demo)
-5. [Medium Blog] (#Medium-Blog)
+5. [Medium Blog](#Medium-Blog)
 6. [Contributing](#contributing)
 7. [License](#license)
 
