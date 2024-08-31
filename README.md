@@ -170,7 +170,6 @@ https://medium.com/@akumar.panday31/empowering-the-visually-impaired-with-ai-pow
     git push origin feature/your-feature-name
     ```
 
-5. Create a pull request.
 
 ## License
 
