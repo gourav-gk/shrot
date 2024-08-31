@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'shrote.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '/cloudsql/shrote-430807:us-central1:shroteapp-mysql',
+        'HOST': '',
         'PORT' : '3306',
         'USER' : 'root',
-        'PASSWORD' : 'lh5P`qO(-jPM#dCy',
-        'NAME' : 'shroteapp-db',
+        'PASSWORD' : '',
+        'NAME' : '',
     }
 }
 
