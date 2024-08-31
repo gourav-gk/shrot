@@ -1,4 +1,4 @@
-﻿django
+django
 django-extensions
 google-ai-generativelanguage
 google-api-core
@@ -25,6 +25,5 @@ opencv-python
 python-dotenv
 requests
 twilio
-ultralytics
-face_recognition
+pillow
 mysqlclient
