@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversation</title>
+    <style>
+        body{
+            width:90%;
+            margin:auto;
+        }
+        h1{
+            text-align:center;
+        }
+        .btn-grp, .txt-area{
+            text-align:center;
+            width:100%;
+        }
+        #transcription{
+            width:70%;
+        }
+        a{
+            text-decoration:none;
+            color: black;
+        }
+    </style>
     {% load static %}
 </head>
 <body>
-    <h1>Speech to Text</h1>
+    <h1><a href="/">Shrote</a> </h1>
     <label for="languageSelect">Select Language:</label>
     <form id="form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -19,10 +39,10 @@
             <option value="hi-IN" {% if lang == "hi-IN" %}selected{% endif %}>Hindi (India)</option>
         </select>
         <br><br>
-        <button id="recordButton">Start Recording</button>
-        <textarea id="transcription" rows="10" cols="50" name="user_input"></textarea>
+        <div class="txt-area"><textarea id="transcription" rows="10" cols="50" name="user_input"></textarea></div>
         <input type="file" id="imageInput" name="image" accept="image/*" style="display:none;">
-        <button type="submit">Submit</button>
+        <div class="btn-grp"><button id="recordButton">Start Recording</button>
+        <button type="submit">Submit</button></div>
     </form>
     <h2>Messages:</h2>
     <div>
@@ -39,6 +59,7 @@
     <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
 
     <script>
+
         const recordButton = document.getElementById('recordButton');
         const transcription = document.getElementById('transcription');
         const languageSelect = document.getElementById('languageSelect');
@@ -97,11 +118,10 @@
 
         // Monitor form submission to check for "front" keyword
         form.addEventListener('submit', function(event) {
-            const userInput = transcription.value.toLowerCase();
-            if (userInput.includes('front')) {
-                event.preventDefault(); // Prevent default form submission
-                capturePhoto(); // Trigger photo capture
-            }
+            event.preventDefault();
+            capturePhoto();
+
+
         });
 
         function capturePhoto() {
