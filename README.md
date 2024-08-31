@@ -145,7 +145,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Demo
 
-https://shrote-433510.el.r.appspot.com/
+https://shrote-430807.el.r.appspot.com/
 
 ## Medium Blog
 
